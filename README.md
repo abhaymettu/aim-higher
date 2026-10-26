@@ -29,8 +29,8 @@ The skill then shows up as `aim-higher:aim-higher`. This repository is its own m
 
 ```sh
 mkdir -p ~/.claude/skills/aim-higher
-curl -fsSL https://raw.githubusercontent.com/abhaymettu/aim-higher/main/skills/aim-higher/SKILL.md \
-  -o ~/.claude/skills/aim-higher/SKILL.md
+curl -fsSL -o ~/.claude/skills/aim-higher/SKILL.md \
+  https://raw.githubusercontent.com/abhaymettu/aim-higher/main/skills/aim-higher/SKILL.md
 ```
 
 Use `.claude/skills/aim-higher/` instead to scope it to one project. Pick one install method: with both, the skill loads twice.
