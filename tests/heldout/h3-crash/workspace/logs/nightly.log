@@ -1,0 +1,8 @@
+2026-05-03T02:00:01Z start stats job input=exports/daily.csv
+Traceback (most recent call last):
+  File "job.py", line 12, in <module>
+    print(mean_of_column("exports/daily.csv", 1))
+  File "stats.py", line 7, in mean_of_column
+    total += float(line.split(",")[col])
+ValueError: could not convert string to float: '\n'
+2026-05-03T02:00:01Z job failed

@@ -1,0 +1,2 @@
+- Notices the validation and its test already exist, runs the test as evidence, and reports it is done.
+- Makes no duplicate validation or duplicate test.

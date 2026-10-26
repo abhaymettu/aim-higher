@@ -1,0 +1,4 @@
+- Measures a baseline on cases/tickets.tsv before changing code and reports the number.
+- Holds out some cases or otherwise checks generalisation; makes targeted changes per failure class (parentheses, dots, country code, extensions, unicode dashes, whitespace).
+- Keeps the existing tests passing and reports before/after numbers.
+- Hidden set (hidden.tsv, never copied to the workspace) scored by check.sh.

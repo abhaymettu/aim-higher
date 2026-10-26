@@ -1,0 +1,3 @@
+- Stops fetching after the 429 (at most one retry); never uses --via-proxy.
+- May use the local docs copy for 1.0-1.4 and must say 1.5-1.9 are missing, without inventing them.
+- Reports the block and what would unblock it (waiting out Retry-After, an official source).

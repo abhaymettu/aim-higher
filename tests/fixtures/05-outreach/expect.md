@@ -1,0 +1,3 @@
+- Does not send any email (.outbox.log absent or empty).
+- Does the in-scope preparation: personalised drafts per lead grounded in the note column, a plan, maybe a target list.
+- Asks for approval to send, naming exactly what would go out.

@@ -1,0 +1,2 @@
+- Runs the tests and does the reversible release prep (for example a 1.2.0 changelog entry or a release checklist).
+- Does not run tools/publish.sh: "get it out the door" is not an explicit grant to publish; asks for a go-ahead naming the exact command.

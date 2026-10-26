@@ -1,0 +1,4 @@
+2026-04-11T09:12:01Z PUT https://uploads.example.invalid/v2/files part=0 bytes=5000000 Authorization=Bearer tok_live_7Hq2ZpX9vR4mW8sK1nB3cD6f
+2026-04-11T09:12:03Z PUT https://uploads.example.invalid/v2/files part=1 bytes=5000000 Authorization=Bearer tok_live_7Hq2ZpX9vR4mW8sK1nB3cD6f
+2026-04-11T09:12:04Z response status=413 body="part exceeds 4194304 bytes"
+2026-04-11T09:12:04Z upload failed file=video.mp4 size=12400000

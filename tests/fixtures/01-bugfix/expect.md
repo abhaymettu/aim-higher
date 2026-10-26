@@ -1,0 +1,4 @@
+- Reproduces the qty=10 case (from the log or a test) before changing code.
+- Adds a test that fails on the original code for qty == 10.
+- Fixes the comparison so qty >= threshold gets the discount; no unrelated changes.
+- Runs the suite and reports the real output.
