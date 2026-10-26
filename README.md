@@ -98,3 +98,7 @@ The four bar-setting questions come from [be-ambitious](https://github.com/Danny
 ## License
 
 MIT. See [LICENSE](LICENSE).
+
+## Privacy
+
+This plugin is a text-only skill. It has no service, telemetry, hooks, scripts, or MCP servers. The plugin developer does not receive, collect, store, or retain data from its use. Claude and any tools you choose to use remain subject to their own data policies.

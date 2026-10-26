@@ -16,3 +16,7 @@ Install it from Claude Code 2.1.275 or later:
 ```
 
 Other install routes, usage, and the behavioral tests are in the repository root: https://github.com/abhaymettu/aim-higher
+
+## Privacy
+
+This plugin is a text-only skill. It has no service, telemetry, hooks, scripts, or MCP servers. The plugin developer does not receive, collect, store, or retain data from its use. Claude and any tools you choose to use remain subject to their own data policies.
