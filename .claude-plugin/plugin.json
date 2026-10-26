@@ -1,0 +1,13 @@
+{
+  "name": "aim-higher",
+  "version": "1.0.0",
+  "description": "Holds the same task to an expert standard and does the in-scope work, without widening scope or crossing the user's stop lines.",
+  "author": {
+    "name": "abhaymettu",
+    "url": "https://github.com/abhaymettu"
+  },
+  "homepage": "https://github.com/abhaymettu/aim-higher",
+  "repository": "https://github.com/abhaymettu/aim-higher",
+  "license": "MIT",
+  "keywords": ["skill", "quality", "expert-bar", "verification"]
+}

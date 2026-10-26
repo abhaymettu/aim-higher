@@ -1,0 +1,15 @@
+{
+  "name": "aim-higher",
+  "description": "Self-hosted marketplace for the aim-higher skill plugin.",
+  "owner": {
+    "name": "abhaymettu",
+    "url": "https://github.com/abhaymettu"
+  },
+  "plugins": [
+    {
+      "name": "aim-higher",
+      "source": "./",
+      "description": "Holds the same task to an expert standard and does the in-scope work, without widening scope or crossing the user's stop lines."
+    }
+  ]
+}

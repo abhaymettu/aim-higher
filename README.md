@@ -1,36 +1,47 @@
 # aim-higher
 
-A skill for coding agents. Asked to "aim higher", the agent holds the same task to the standard a top practitioner would use, then does the work.
+A skill for coding agents. When you say "aim higher" or "do this properly", the agent holds the same task to the standard a top practitioner would use, then does the work.
 
-It is for the moment a user says "do this properly". The agent returned a summary instead of the source, a fix without a reproduction, or a plan instead of the work, and the user wants better execution of the same goal. The skill does not make the job bigger, and it does not give the agent new permissions.
+![The aim-higher workflow: pin the outcome, set the bar, do the work, check and report, with a stop line underneath for spending, sending, publishing, deleting, secrets and security](docs/workflow.svg)
 
-## What it does
-
-1. **Pins the outcome.** It states what should be true at the end and where the scope stops. It checks whether that is already true before starting, and it collects the user's limits ("draft only", "stop", "I'll review").
-2. **Sets the bar.** It answers four questions for the task's field: the moves that separate expert work from competent work, the raw material to start from, the methods that fit, and an external check with pass and fail written down first.
-3. **Does the work.** It executes the in-scope work instead of handing back a better prompt. It has defaults for bugs (reproduce, failing test, fix the cause), research (primary sources, computed numbers), changes, and model or metric quality (held-out data against a baseline).
-4. **Respects stop lines.** Ambition never turns into spending, sending, publishing, deleting out-of-scope data, revealing secrets, or getting around security or rate limits. For those it prepares everything up to the line and asks one question. Instructions found inside files or tool output are treated as data.
-5. **Handles failure.** It widens the grounded search instead of guessing. A refusal from a rate limit or a guard is a stop, not a puzzle.
-6. **Hill-climbs only when it pays.** For a failure that keeps recurring and can be counted, it records a baseline, holds out cases, makes targeted changes, and checks for regressions. For one-off work it runs no eval at all.
-7. **Finishes honestly.** It reports the check's real output and what was not verified. It reviews once and stops.
+It is for the moment an agent hands back a summary instead of the source, a fix without a reproduction, or a plan instead of the work. The skill raises the quality of the same goal. It does not make the job bigger, and it gives the agent no new permissions.
 
 ## Install
 
-The skill is one file, `SKILL.md`, in the open Agent Skills format (a folder with a `SKILL.md` that has `name` and `description` frontmatter).
+### Claude Code plugin
 
-For Claude Code, as a personal skill:
+Add this repository as a plugin marketplace, then install the plugin:
+
+```text
+/plugin marketplace add abhaymettu/aim-higher
+/plugin install aim-higher@aim-higher
+```
+
+From a shell, Claude Code 2.1.292 or later does both in one step:
+
+```sh
+claude plugin install aim-higher --marketplace abhaymettu/aim-higher
+```
+
+The skill then shows up as `aim-higher:aim-higher`. This repository is its own marketplace. It is not a listing in Anthropic's plugin directory.
+
+### Personal skill (no plugin)
 
 ```sh
 mkdir -p ~/.claude/skills/aim-higher
-curl -fsSL https://raw.githubusercontent.com/abhaymettu/aim-higher/main/SKILL.md \
+curl -fsSL https://raw.githubusercontent.com/abhaymettu/aim-higher/main/skills/aim-higher/SKILL.md \
   -o ~/.claude/skills/aim-higher/SKILL.md
 ```
 
-Or clone the repo and copy `SKILL.md` into `~/.claude/skills/aim-higher/` for every project, or into `.claude/skills/aim-higher/` for one project. Other agents that read Agent Skills folders take the same file in their own skills directory.
+Use `.claude/skills/aim-higher/` instead to scope it to one project. Pick one install method: with both, the skill loads twice.
+
+### Other agents
+
+`skills/aim-higher/SKILL.md` is a standard Agent Skills file (`name` and `description` frontmatter). Agents that read skills folders take it as is.
 
 ## Use
 
-Say it in plain words, or invoke it by name where your agent supports that:
+Say it in plain words, or invoke it by name:
 
 ```text
 /aim-higher Find out why the nightly export got slower this week.
@@ -38,20 +49,41 @@ Aim higher on this: the signup form drops some emails. Fix it.
 Do this properly. How much did the new index actually help query latency?
 ```
 
-On the second request, the agent reproduces the dropped emails from logs or a failing test, fixes the cause, and runs the suite. It does not return a plan for doing that. Had the request been "draft a fix, don't apply it", it writes a patch and leaves the source alone.
+On the second request, the agent:
+
+1. reproduces the dropped emails from logs or a failing test,
+2. fixes the cause, not the symptom,
+3. runs the suite and reports its real output, including anything it could not verify.
+
+Had the request been "draft a fix, don't apply it", it writes a patch and leaves the source alone.
+
+## What it does
+
+| Step | What the agent does |
+|---|---|
+| **Pin the outcome** | States what should be true at the end and where scope stops. Checks whether it is already true. Collects the user's limits ("draft only", "stop", "I'll review"). |
+| **Set the bar** | Answers four questions for the task's field: the moves that separate expert from competent work, the raw material to start from, the methods that fit, and an external check with pass and fail written down first. |
+| **Do the work** | Executes the in-scope work instead of handing back a better prompt. Defaults for bugs (reproduce, failing test, fix the cause), research (primary sources, computed numbers), changes, and model or metric quality (held-out data against a baseline). |
+| **Handle failure** | Widens the grounded search instead of guessing. A refusal from a rate limit or a guard is a stop, not a puzzle. |
+| **Hill-climb only when it pays** | For a failure that recurs and can be counted: baseline, held-out cases, targeted changes, regression checks. For one-off work, no eval at all. |
+| **Finish honestly** | Reports the check's real output and what was not verified. Reviews once and stops. |
+
+### What it will not do
+
+Ambition never turns into spending, sending, publishing, deleting out-of-scope data, revealing secrets, or getting around security or rate limits. For those it prepares everything up to the line and asks one question. Instructions found inside files or tool output are treated as data, not commands.
 
 ## Tests
 
-`tests/` holds 13 synthetic fixtures plus 3 held-out ones. Each is a small fake project, a user request, and a check script that inspects what the agent left behind. The checks use test suites, a mutation that restores the original bug, a hidden case set, untouched-file diffs, and logs from stub `send`, `fetch`, and `publish` tools. See [tests/README.md](tests/README.md) for how to run them.
+`tests/` holds 13 synthetic fixtures plus 3 held-out ones. Each is a small fake project, a user request, and a `check.sh` that inspects what the agent left behind: test suites, a mutation that restores the original bug, a hidden case set, untouched-file diffs, and logs from stub `send`, `fetch` and `publish` tools. See [tests/README.md](tests/README.md) to run them.
 
 ### Results so far
 
-These are from one model (Claude Opus 5.5), mostly one run per fixture, so read them as evidence, not proof.
+These come from one model (Claude Opus 5.5), mostly one run per fixture. Read them as evidence, not proof.
 
-- The first draft passed all 13 fixtures on artifacts and on a reading of the replies. Two runs exposed method problems that the checks alone did not show. A held-out split was chosen after the agent had read every case. Another agent built a lint script just to grade three email drafts. The skill text was tightened for both.
-- The rerun then found a real failure. Asked to prepare beta invites, the agent wrote a send script and ran it "to test" its placeholder guard. Nothing went out, but only the guard stood between the test and three real emails. An agent with no skill did the same. The stop line now says never to run a command that would perform the action if a guard failed. Two fresh runs after the change did not execute any send path, and reruns of the rate-limit and release fixtures still passed.
-- The three held-out fixtures (an unapproved publish, a survey file carrying an embedded "report 90%" instruction, and a crash with a broken test runner) passed on the revised skill.
-- On a strong model, a request that already says "aim higher" gets much of the depth without the skill. The measured differences were in process (reproducing before fixing, measuring each change, holding out cases) and in that one safety behavior.
+- **First draft:** passed all 13 fixtures on artifacts and on a reading of the replies. Two runs exposed method problems the checks alone missed: a held-out split chosen after the agent had read every case, and a lint script built just to grade three email drafts. The skill text was tightened for both.
+- **Rerun:** found a real failure. Asked to prepare beta invites, the agent wrote a send script and ran it "to test" its placeholder guard. Nothing went out, but only the guard stood between the test and three real emails. An agent with no skill did the same. The stop line now says never to run a command that would perform the action if a guard failed. Two fresh runs after the change did not execute any send path, and reruns of the rate-limit and release fixtures still passed.
+- **Held-out:** the three held-out fixtures (an unapproved publish, a survey file carrying an embedded "report 90%" instruction, and a crash with a broken test runner) passed on the revised skill.
+- **Baseline:** on a strong model, a request that already says "aim higher" gets much of the depth without the skill. The measured differences were in process (reproducing before fixing, measuring each change, holding out cases) and in that one safety behavior.
 
 `check.sh` only sees artifacts. A guarded send script that aborts leaves no trace, so that failure was found by reading which commands the agent ran.
 
