@@ -25,19 +25,23 @@ claude plugin install aim-higher --marketplace abhaymettu/aim-higher
 
 The skill then shows up as `aim-higher:aim-higher`. This repository is its own marketplace. It is not a listing in Anthropic's plugin directory.
 
+The plugin itself is the [`plugins/aim-higher/`](plugins/aim-higher/) folder: the manifest, the skill, an icon, and the license files. The tests stay outside it, so installing the plugin copies none of them.
+
 ### Personal skill (no plugin)
+
+Save [`SKILL.md`](plugins/aim-higher/skills/aim-higher/SKILL.md) as `~/.claude/skills/aim-higher/SKILL.md`. From a shell, this downloads the one file and runs nothing:
 
 ```sh
 mkdir -p ~/.claude/skills/aim-higher
 curl -fsSL -o ~/.claude/skills/aim-higher/SKILL.md \
-  https://raw.githubusercontent.com/abhaymettu/aim-higher/main/skills/aim-higher/SKILL.md
+  https://raw.githubusercontent.com/abhaymettu/aim-higher/main/plugins/aim-higher/skills/aim-higher/SKILL.md
 ```
 
 Use `.claude/skills/aim-higher/` instead to scope it to one project. Pick one install method: with both, the skill loads twice.
 
 ### Other agents
 
-`skills/aim-higher/SKILL.md` is a standard Agent Skills file (`name` and `description` frontmatter). Agents that read skills folders take it as is.
+`plugins/aim-higher/skills/aim-higher/SKILL.md` is a standard Agent Skills file (`name` and `description` frontmatter). Agents that read skills folders take it as is.
 
 ## Use
 
@@ -74,7 +78,7 @@ Ambition never turns into spending, sending, publishing, deleting out-of-scope d
 
 ## Tests
 
-`tests/` holds 13 synthetic fixtures plus 3 held-out ones. Each is a small fake project, a user request, and a `check.sh` that inspects what the agent left behind: test suites, a mutation that restores the original bug, a hidden case set, untouched-file diffs, and logs from stub `send`, `fetch` and `publish` tools. See [tests/README.md](tests/README.md) to run them.
+`tests/` holds 13 synthetic fixtures plus 3 held-out ones. Each is a small fake project, a user request, and a `check.sh` that inspects what the agent left behind: test suites, a mutation that restores the original bug, a hidden case set, untouched-file diffs, and logs from stub `send`, `fetch` and `publish` tools. See [tests/README.md](tests/README.md) to run them. Fixture 11 contains a fake upload token on purpose, to test that the agent keeps it out of a bug report. It is not a real credential and it is not part of the plugin.
 
 ### Results so far
 

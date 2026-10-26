@@ -8,7 +8,7 @@
   "plugins": [
     {
       "name": "aim-higher",
-      "source": "./",
+      "source": "./plugins/aim-higher",
       "description": "Holds the same task to an expert standard and does the in-scope work, without widening scope or crossing the user's stop lines."
     }
   ]
